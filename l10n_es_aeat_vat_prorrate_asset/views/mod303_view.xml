@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="l10n_es_aeat_mod303_prorrata_form">
+            <field name="name">l10n.es.aeat.mod303.prorrata.form</field>
+            <field name="model">l10n.es.aeat.mod303.report</field>
+            <field name="inherit_id" ref="l10n_es_aeat_vat_prorrate.l10n_es_aeat_mod303_prorrata_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat_prorrate_percent']/.." position="after">
+                    <field name="asset_prorrate_regularization_account"
+                           attrs="{'invisible': ['|', ('vat_prorrate_type', '!=', 'general'), ('period_type', 'not in', ['4T', '12'])],
+                                   'required': [('vat_prorrate_type', '=', 'general'), ('period_type', 'in', ['4T', '12'])]}"
+                    />
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
