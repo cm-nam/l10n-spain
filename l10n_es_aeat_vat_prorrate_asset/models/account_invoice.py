@@ -41,10 +41,11 @@ class AccountInvoiceLine(models.Model):
                     partner=line.invoice_id.partner_id)
                 total_tax = totals['total_included'] - totals['total']
                 increment = total_tax * (100 - line.vat_prorrate_percent) / 100
-                asset.write(
-                    {
-                        'purchase_value': asset.purchase_value + increment,
-                        'vat_prorrate_percent': line.vat_prorrate_percent,
-                        'vat_prorrate_increment': increment,
-                    })
+                asset.write({
+                    'purchase_value': asset.purchase_value + increment,
+                    'vat_prorrate_percent': line.vat_prorrate_percent,
+                    'vat_prorrate_increment': increment,
+                })
+                # Recompute depreciation board for applying new purchase value
+                asset.compute_depreciation_board()
         return res
