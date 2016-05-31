@@ -17,6 +17,7 @@
         'account_asset',
     ],
     "data": [
+        'views/account_asset_asset_view.xml',
         'views/account_invoice_view.xml',
         'views/mod303_view.xml',
     ],
