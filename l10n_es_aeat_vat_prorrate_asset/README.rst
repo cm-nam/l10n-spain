@@ -36,6 +36,10 @@ forma, el activo tendrá un mayor valor bruto en base a ese porcentaje.
 Problemas conocidos / Hoja de ruta
 ==================================
 
+* Si en una misma factura se incluyen dos líneas de activo iguales (categoría y
+  precio de compra), la prorrata que se aplicará a ambas será la de la última
+  línea (aunque no tiene sentido fiscal aplicar una prorrata distinta a cada
+  línea).
 * La prorrata especial de IVA no está contemplada.
 
 Créditos

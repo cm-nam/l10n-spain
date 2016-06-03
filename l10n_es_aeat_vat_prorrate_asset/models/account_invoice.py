@@ -28,7 +28,10 @@ class AccountInvoiceLine(models.Model):
         for line in lines:
             if line.asset_category_id and line.vat_prorrate_percent != 100:
                 # There's no other way of finding the created asset
-                asset = asset_model.search(
+                # It can happen that there are more than one asset found
+                # through this method, because there are 2 exact lines in the
+                # invoice. In this case, only last prorrate is applied.
+                assets = asset_model.search(
                     [('name', '=', line.name),
                      ('category_id', '=', line.asset_category_id.id),
                      ('purchase_value', '=', line.price_subtotal),
@@ -41,11 +44,11 @@ class AccountInvoiceLine(models.Model):
                     partner=line.invoice_id.partner_id)
                 total_tax = totals['total_included'] - totals['total']
                 increment = total_tax * (100 - line.vat_prorrate_percent) / 100
-                asset.write({
-                    'purchase_value': asset.purchase_value + increment,
+                assets.write({
+                    'purchase_value': line.price_subtotal + increment,
                     'vat_prorrate_percent': line.vat_prorrate_percent,
                     'vat_prorrate_increment': increment,
                 })
                 # Recompute depreciation board for applying new purchase value
-                asset.compute_depreciation_board()
+                assets.compute_depreciation_board()
         return res
